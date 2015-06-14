@@ -1,9 +1,7 @@
-%define rtpname liba52_0
-
 Summary: A free library for decoding ATSC A/52 (aka AC-3) streams.
 Name: a52dec
 Version: 0.7.4
-Release: 7.0.1%{?dist}
+Release: 7.0.2%{?dist}
 License: GPL
 Group: Applications/Multimedia
 Source0: http://liba52.sourceforge.net/files/%{name}-%{version}.tar.gz
@@ -11,7 +9,7 @@ Patch0: a52dec-0.7.4-fPIC.patch
 URL: http://liba52.sourceforge.net/
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: autoconf
-Requires: %{rtpname} = %{eversion}
+Requires: a52dec-libs_%{version}
 
 %description
 liba52 is a free library for decoding ATSC A/52 streams. It is released
@@ -19,11 +17,12 @@ under the terms of the GPL license. The A/52 standard is used in a
 variety of applications, including digital television and DVD. It is
 also known as AC-3.
 
-%package -n %{rtpname}
+%package libs_%{version}
 Summary: A free library for decoding ATSC A/52 (aka AC-3) streams.
 Group: Applications/Multimedia
+Obsoletes: liba52dec*
 
-%description -n %{rtpname}
+%description libs_%{version}
 liba52 is a free library for decoding ATSC A/52 streams. It is released
 under the terms of the GPL license. The A/52 standard is used in a
 variety of applications, including digital television and DVD. It is
@@ -32,7 +31,7 @@ also known as AC-3.
 %package devel
 Summary: Header files and static libraries for liba52.
 Group: Development/Libraries
-Requires: %{rtpname} = %{eversion}
+Requires: a52dec-libs_%{version}
 
 %description devel
 liba52 is a free library for decoding ATSC A/52 streams. It is released
@@ -60,9 +59,9 @@ rm -rf %{buildroot}
 %clean
 rm -rf %{buildroot}
 
-%post -n %{rtpname} -p /sbin/ldconfig
+%post libs_%{version} -p /sbin/ldconfig
 
-%postun -n %{rtpname} -p /sbin/ldconfig
+%postun libs_%{version} -p /sbin/ldconfig
 
 %files
 %defattr(-,root,root,-)
@@ -70,7 +69,7 @@ rm -rf %{buildroot}
 %{_bindir}/*
 %{_mandir}/man1/*
 
-%files -n %{rtpname}
+%files libs_%{version}
 %defattr(-,root,root,-)
 %{_libdir}/*.so.*
 
@@ -82,6 +81,9 @@ rm -rf %{buildroot}
 %{_libdir}/*.la
 
 %changelog
+* Sat Jun 13 2015 Fredrik Fornstad <fredrik.fornstad@gmail.com> 0.7.4-7.0.2
+- Changed lib naming convention to comply with ClearOS policy
+
 * Sat Jun 14 2008 Axel Thimm <Axel.Thimm@ATrpms.net> - 0.7.4-7.0.1
 - Fix not utf-8	specfile entries.
 
