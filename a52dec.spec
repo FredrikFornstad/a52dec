@@ -1,7 +1,7 @@
 Summary: A free library for decoding ATSC A/52 (aka AC-3) streams.
 Name: a52dec
 Version: 0.7.4
-Release: 7.0.2%{?dist}
+Release: 7.0.3%{?dist}
 License: GPL
 Group: Applications/Multimedia
 Source0: http://liba52.sourceforge.net/files/%{name}-%{version}.tar.gz
@@ -9,7 +9,7 @@ Patch0: a52dec-0.7.4-fPIC.patch
 URL: http://liba52.sourceforge.net/
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: autoconf
-Requires: a52dec-libs_%{version}
+Requires: a52dec-libs
 
 %description
 liba52 is a free library for decoding ATSC A/52 streams. It is released
@@ -17,12 +17,12 @@ under the terms of the GPL license. The A/52 standard is used in a
 variety of applications, including digital television and DVD. It is
 also known as AC-3.
 
-%package libs_%{version}
+%package libs
 Summary: A free library for decoding ATSC A/52 (aka AC-3) streams.
 Group: Applications/Multimedia
 Obsoletes: liba52dec*
 
-%description libs_%{version}
+%description libs
 liba52 is a free library for decoding ATSC A/52 streams. It is released
 under the terms of the GPL license. The A/52 standard is used in a
 variety of applications, including digital television and DVD. It is
@@ -31,7 +31,7 @@ also known as AC-3.
 %package devel
 Summary: Header files and static libraries for liba52.
 Group: Development/Libraries
-Requires: a52dec-libs_%{version}
+Requires: a52dec-libs
 
 %description devel
 liba52 is a free library for decoding ATSC A/52 streams. It is released
@@ -41,7 +41,6 @@ also known as AC-3.
 
 These are the header files and static libraries from liba52 that are needed
 to build programs that use it.
-
 
 %prep
 %setup -q
@@ -59,9 +58,9 @@ rm -rf %{buildroot}
 %clean
 rm -rf %{buildroot}
 
-%post libs_%{version} -p /sbin/ldconfig
+%post libs -p /sbin/ldconfig
 
-%postun libs_%{version} -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
 
 %files
 %defattr(-,root,root,-)
@@ -69,7 +68,7 @@ rm -rf %{buildroot}
 %{_bindir}/*
 %{_mandir}/man1/*
 
-%files libs_%{version}
+%files libs
 %defattr(-,root,root,-)
 %{_libdir}/*.so.*
 
@@ -81,6 +80,9 @@ rm -rf %{buildroot}
 %{_libdir}/*.la
 
 %changelog
+* Fri Sep 30 2016 Fredrik Fornstad <fredrik.fornstad@gmail.com> 0.7.4-7.0.3
+- Changed lib naming to adopt to ClearOS
+
 * Sat Jun 13 2015 Fredrik Fornstad <fredrik.fornstad@gmail.com> 0.7.4-7.0.2
 - Changed lib naming convention to comply with ClearOS policy
 
@@ -116,4 +118,3 @@ rm -rf %{buildroot}
 
 * Thu Sep 20 2001 Martin Norbäck <d95mback@dtek.chalmers.se>
 - Initial version
-
